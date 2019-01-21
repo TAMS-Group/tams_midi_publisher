@@ -1,2 +1,4 @@
 Header header
-byte[] data
+bool note_on
+byte note_number
+byte note_velocity

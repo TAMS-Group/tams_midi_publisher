@@ -56,7 +56,6 @@ public:
   void run()
   {
     std::vector<unsigned char> message;
-    int nBytes, i;
     tams_midi_publisher::MidiMessage mm;
     ros::Rate r(100);
 
@@ -65,14 +64,19 @@ public:
     while (ros::ok())
     {
       midiin.getMessage(&message);
-      if(message.empty())
+      if(message.size() != 3)
         continue;
       mm.header.stamp = ros::Time::now();
-      mm.data.clear();
-      for(size_t i = 0; i < message.size(); ++i)
-      {
-        mm.data.push_back(message[i]);
-      }
+      // to only compare the first four bits they are shifted to the right
+      message[0] >>= 4;
+      if(message[0] == 0b00001000)
+        mm.note_on = false;
+      else if(message[0] == 0b00001001)
+        mm.note_on = true;
+      else
+        continue;
+      mm.note_number = message[1];
+      mm.note_velocity = message[2];
       midi_pub_.publish(mm);
       r.sleep();
     }
