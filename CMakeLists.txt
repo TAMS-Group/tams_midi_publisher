@@ -20,7 +20,7 @@ generate_messages(
 )
 
 catkin_package(
-  CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS message_generation message_runtime std_msgs
 )
 
 include_directories(
@@ -29,6 +29,6 @@ SYSTEM ${catkin_INCLUDE_DIRS}
 )
 
 add_executable(midi_publisher src/midi_publisher.cpp)
-add_dependencies(midi_publisher ${catkin_EXPORTED_TARGETS})
+add_dependencies(midi_publisher ${catkin_EXPORTED_TARGETS} tams_midi_publisher_generate_messages_cpp)
 target_link_libraries(midi_publisher ${catkin_LIBRARIES} rtmidi)
 
