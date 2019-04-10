@@ -32,3 +32,6 @@ add_executable(midi_publisher src/midi_publisher.cpp)
 add_dependencies(midi_publisher ${catkin_EXPORTED_TARGETS} tams_midi_publisher_generate_messages_cpp)
 target_link_libraries(midi_publisher ${catkin_LIBRARIES} rtmidi)
 
+add_executable(midi_reader src/midi_reader.cpp)
+add_dependencies(midi_reader ${catkin_EXPORTED_TARGETS} tams_midi_reader_generate_messages_cpp)
+target_link_libraries(midi_reader ${catkin_LIBRARIES} rtmidi)

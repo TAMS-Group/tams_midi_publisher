@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="tams_midi_publisher" name="midi_reader" type="midi_reader" output="screen">
+    <param name="midi_port" value="129"/>
+  </node>
+</launch>
