@@ -1,5 +1,5 @@
 <launch>
   <node pkg="tams_midi_publisher" name="midi_reader" type="midi_reader" output="screen">
-    <param name="midi_port" value="129"/>
+    <param name="midi_name_substring" value="FLUID Synth"/>
   </node>
 </launch>

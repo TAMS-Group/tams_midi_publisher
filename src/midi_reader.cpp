@@ -9,11 +9,18 @@ public:
   {
     ros::NodeHandle pn("~");
     int midi_port;
+    std::string midi_name;
+    std::string midi_name_substring;
+    double wait_at_start;
     pn.param("midi_port", midi_port, -1);
+    pn.param("midi_name", midi_name, std::string(""));
+    pn.param("midi_name_substring", midi_name_substring, std::string(""));
+    pn.param("wait_at_start", wait_at_start, 0.0);
+    ros::Duration(wait_at_start).sleep();
 
-    if(midi_port == -1)
+    if(midi_port == -1 && midi_name == "" && midi_name_substring == "")
     {
-      ROS_ERROR_STREAM("no midi port provided. shutting down.");
+      ROS_ERROR_STREAM("no midi port  or name provided. shutting down.");
       ros::shutdown();
     }
 
@@ -21,13 +28,15 @@ public:
     bool found_interface = false;
     for(size_t i = 0; i < port_count; ++i)
     {
-      std::string port_name = midiout.getPortName(i);
-      std::size_t found = port_name.find_last_of(" ");
-      port_name = port_name.substr(found+1);
-      port_name = port_name.substr(0, port_name.size() - 2);
-      int port_id = std::stoi(port_name);
+      std::string port_id = midiout.getPortName(i);
+      std::size_t found = port_id.find_last_of(" ");
+      std::string port_name = port_id.substr(0, found);
 
-      if(port_id == midi_port)
+      port_id = port_id.substr(found+1);
+      port_id = port_id.substr(0, port_id.size() - 2);
+      int port_number = std::stoi(port_id);
+
+      if(port_number == midi_port || port_name == midi_name || port_name.find(midi_name_substring) != std::string::npos)
       {
         midiout.openPort(i);
         ROS_INFO_STREAM("found interface.");
