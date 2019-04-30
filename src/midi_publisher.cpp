@@ -39,10 +39,10 @@ public:
       port_id = port_id.substr(0, port_id.size() - 2);
       int port_number = std::stoi(port_id);
 
-      if(port_number == midi_port || port_name == midi_name || port_name.find(midi_name_substring) != std::string::npos)
+      if(port_number == midi_port || (!midi_name.empty() && port_name == midi_name) || (!midi_name_substring.empty() &&  (port_name.find(midi_name_substring) != std::string::npos)))
       {
         midiin.openPort(i);
-        ROS_INFO_STREAM("found interface.");
+        ROS_INFO_STREAM("found interface: " << port_name);
         found_interface = true;
         break;
       }
