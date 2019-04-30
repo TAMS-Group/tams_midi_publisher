@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="tams_midi_publisher" name="midi_publisher" type="midi_publisher" output="screen">
+    <param name="midi_port" value="24"/>
+    <param name="ignore_sysex" value="true"/>
+    <param name="ignore_timing" value="true"/>
+    <param name="ignore_active_sensing" value="true"/>
+  </node>
+</launch>
